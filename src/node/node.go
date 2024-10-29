@@ -2,6 +2,7 @@ package node
 
 import (
 	"go-distributed-architecture/send"
+	"go-distributed-architecture/validate"
 
 	"fmt"
 )
@@ -42,6 +43,13 @@ func RunNode2(id int, ch_tx chan send.Tx, ch_main_signal chan int, ch_main chan 
 		case ReturnTx:
 			ch_main <- txs
 			ch_main_signal <- Success
+		case VerifyTx:
+			switch validate.VerifyTx(job) {
+			case true:
+				ch_main_signal <- ValidTx
+			case false:
+				ch_main_signal <- InvalidTx
+			}
 		}
 	}
 
