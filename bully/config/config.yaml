@@ -1,0 +1,13 @@
+channel:
+  size: 20
+  monitor: 10
+
+nodes:
+  num: 5
+  leader_timeout: 10
+  leader_kill: 30
+  election_timeout: 10
+
+tasks:
+  duration: 5
+  period: 3
