@@ -15,6 +15,8 @@ type Block struct {
 	Hash      string
 }
 
+// TODO: How to implement function termination when another node finds the nonce first:
+// Decide whether to deeply integrate the receiver struct or use a separate channel for coordination.
 func (b *Block) ProofOfWork(difficulty int) {
 	prefix := strings.Repeat("0", difficulty)
 	for {

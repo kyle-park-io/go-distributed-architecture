@@ -13,7 +13,7 @@ func TestProofOfWork(t *testing.T) {
 	block := Block{
 		PrevHash:  "0000000000000000",
 		Timestamp: time.Now().Unix(),
-		Data:      "Test Block",
+		Data:      "Genesis Block",
 		Nonce:     0,
 		Hash:      "",
 	}
