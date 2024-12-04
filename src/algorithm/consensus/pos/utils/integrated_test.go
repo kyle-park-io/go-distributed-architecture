@@ -2,7 +2,7 @@ package utils
 
 import "testing"
 
-func TestCombineRandaoAndVRF(t *testing.T) {
+func TestSelectBlockProposer(t *testing.T) {
 	// randao
 	randao := &RANDAO{}
 
@@ -16,12 +16,7 @@ func TestCombineRandaoAndVRF(t *testing.T) {
 
 	randao.CalculateFinalValue()
 
-	// vrf
-	privKey, _ := GenerateKeyPair()
-	input := []byte("test_vrf_randomness")
-
-	vrf := RunVRF(privKey, input)
-
-	c := CombineRandaoAndVRF(randao.FinalValue, vrf.Output)
-	t.Logf("Combined Randao & VRF: %x\n", c)
+	// select block proposer
+	selected := randao.SelectBlockProposer()
+	t.Logf("Selected Validator: %+v\n", selected)
 }

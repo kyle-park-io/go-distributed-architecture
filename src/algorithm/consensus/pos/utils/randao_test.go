@@ -2,6 +2,7 @@ package utils
 
 import "testing"
 
+// If you want an accurate implementation, you need to achieve complete randomness using goroutines and mutex.
 func TestCommit(t *testing.T) {
 	randao := &RANDAO{}
 

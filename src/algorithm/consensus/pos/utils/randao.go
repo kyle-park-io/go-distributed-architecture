@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"crypto/ecdsa"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
@@ -16,10 +17,16 @@ type Participant struct {
 	Secret []byte
 	Commit string
 	Reveal []byte
+
+	PrivKey   *ecdsa.PrivateKey
+	PublicKey ecdsa.PublicKey
 }
 
 // Commit phase: Participants submit the hash of their secret value
 func (r *RANDAO) Commit(id int, secret []byte) {
+	// generate key
+	privKey, pubKey := GenerateKeyPair()
+
 	// make hash
 	hash := sha256.Sum256(secret)
 
@@ -27,6 +34,9 @@ func (r *RANDAO) Commit(id int, secret []byte) {
 		ID:     id,
 		Secret: secret,
 		Commit: hex.EncodeToString(hash[:]),
+
+		PrivKey:   privKey,
+		PublicKey: pubKey,
 	})
 
 	fmt.Printf("Participant %d committed: %s\n", id, hex.EncodeToString(hash[:]))

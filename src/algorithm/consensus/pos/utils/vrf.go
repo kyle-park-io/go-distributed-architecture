@@ -15,7 +15,8 @@ type VRFOutput struct {
 
 func RunVRF(privKey *ecdsa.PrivateKey, input []byte) VRFOutput {
 	// make hash
-	hash := sha256.Sum256(input)
+	hashInput := append(input, privKey.PublicKey.X.Bytes()...)
+	hash := sha256.Sum256(hashInput)
 
 	// sign data
 	r, s, err := ecdsa.Sign(rand.Reader, privKey, hash[:])
@@ -31,7 +32,9 @@ func RunVRF(privKey *ecdsa.PrivateKey, input []byte) VRFOutput {
 }
 
 func VerifyVRF(pubKey ecdsa.PublicKey, input []byte, vrf VRFOutput) bool {
-	hash := sha256.Sum256(input)
+	// make hash
+	hashInput := append(input, pubKey.X.Bytes()...)
+	hash := sha256.Sum256(hashInput)
 
 	isValid := ecdsa.Verify(&pubKey, hash[:], vrf.ProofR, vrf.ProofS)
 	return isValid
